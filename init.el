@@ -1,24 +1,9 @@
-;;======================================================================
-;; Configuration file to Emacs (>=25.2.2) by Walmes Zeviani.
-;;
-;; This file is hosted at https://github.com/walmes/emacs.
-;;
-;; Almost all the content available here was obtained/inspired by
-;; queries on the internet. Please, send questions, problems and/or
-;; suggestions as an issue on GitHub project of this file.
-;;======================================================================
-
-;; http://www.emacswiki.org/wiki/EmacsNiftyTricks
-;; “I’ve used Emacs for many years now, but have never reached its
-;;    maximum potential.” -- Anon.
-;;
-;; http://www.mygooglest.com/fni/dot-emacs.html
-;; “Show me your ~/.emacs and I will tell
-;;    you who you are.” -- Bogdan Maryniuk.
-;;
-;; https://www.emacswiki.org/emacs/EmacsKoans
-;; “-- Master, does Emacs have buddha-nature?
-;;  -- I can't se why not, it has everything else.”
+;;----------------------------------------------------------------------
+;;                             Eduardo E. R. Junior <edujrrib@gmail.com>
+;;                         leg.ufpr.br/~eduardojr · github.com/jreduardo
+;;                                               2019-Feb-05 · SP/Brazil
+;;----------------------------------------------------------------------
+;; Configuration file to Emacs adapted/copied from Walmes Zeviani.
 
 ;;----------------------------------------------------------------------
 ;; Basic definitions.
@@ -26,7 +11,9 @@
 
 ;; Add directory with supplementary configuration files.
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-
+(tool-bar-mode -1)                  ;; Don't display tool bar
+(menu-bar-mode -1)                  ;; Don't display menu bar
+(global-linum-mode 1)               ;; Line numbers
 (global-hl-line-mode 1)             ;; Highlight the cursor line.
 (visual-line-mode 1)                ;; Screen lines, not logical lines.
 (show-paren-mode 1)                 ;; Highlight matching pairs.
@@ -40,6 +27,9 @@
 (setq-default fill-column 72)       ;; Column width.
 ;; (setq-default auto-fill-function
 ;;               'do-auto-fill)        ;; Auto break long lines.
+
+;; Maximize initial frame on startup
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;; Highlight whitespace.
 (setq whitespace-line-column fill-column)
@@ -55,11 +45,9 @@
 ;; Font and size.
 (cond
  ((find-font (font-spec :name "Inconsolata"))
-  (set-default-font "Inconsolata-14"))
- ((find-font (font-spec :name "Noto Sans Mono"))
-  (set-default-font "Noto Sans Mono-14"))
+  (set-default-font "Inconsolata-12"))
  (t
-  (set-default-font "Ubuntu Mono-14")))
+  (set-default-font "Ubuntu Mono-12")))
 
 ;; (set-default-font "Noto Sans Mono-14")
 ;; (set-default-font "Inconsolata-14")
@@ -145,8 +133,8 @@
 ;; (set-face-attribute hl-line-face nil :background "#171816")
 
 ;; (load-theme 'molokai t)
-(load-theme 'gotham t)
-;; (load-theme 'solarized-dark t)
+;; (load-theme 'gotham t)
+(load-theme 'solarized-dark t)
 
 ;;-------------------------------------------
 ;; Light.
