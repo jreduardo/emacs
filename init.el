@@ -95,6 +95,15 @@
 (global-set-key (kbd "<S-f12>") 'toggle-tool-bar-mode-from-frame)
 
 ;;----------------------------------------------------------------------
+;; Add Rstudio style (two spaces to ident, etc)
+;;----------------------------------------------------------------------
+
+(add-hook 'find-file-hook 'my-r-style-hook)
+(defun my-r-style-hook ()
+  (when (string-match (file-name-extension buffer-file-name) "[r|R]$")
+    (ess-set-style 'RStudio)))
+
+;;----------------------------------------------------------------------
 ;; My functions.
 ;;----------------------------------------------------------------------
 
