@@ -3,23 +3,12 @@
 ;;----------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------
-;; From Fernando Mayer:
-;; http://git.leg.ufpr.br/fernandomayer/emacs/blob/master/emacs.el
+;; Simple switch theme
 
-;; (defun set-background-mode (frame mode)
-;;   (set-frame-parameter frame 'background-mode mode)
-;;   (when
-;;       (not (display-graphic-p frame))
-;;     (set-terminal-parameter
-;;      (frame-terminal frame) 'background-mode mode))
-;;   (enable-theme 'solarized))
-
-;; (defun switch-theme ()
-;;   (interactive)
-;;   (let ((mode
-;;          (if (eq (frame-parameter nil 'background-mode) 'dark)
-;;              'light 'dark)))
-;;     (set-background-mode nil mode)))
+(defun ej-switch-theme ()
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes)
+  (call-interactively 'load-theme t))
 
 ;;----------------------------------------------------------------------
 ;; Split window and open shell.
@@ -247,47 +236,20 @@
         (insert (make-string (- column-middle (current-column)) ?-)))))
 
 ;;----------------------------------------------------------------------
+;; Insert sections.
+;; Adapted from https://github.com/cszang/dotemacs/blob/master/lisp/ess.el
 
-;; (defun replace-buffer-divisions-by-Walmes-style (beg end &optional char)
-;;   "This functions replace divisions in R code by Walmes's style
-;;    code division: start with single # and have 71 dashes, total
-;;    length is `fill-column'. All rules greater than 44 characters
-;;    will be replaced until complete margin."
-;;   (interactive "r")
-;;   (save-excursion
-;;     (goto-char beg)
-;;     (let ((comment-char
-;;            (if char
-;;                char
-;;              (read-from-minibuffer "Comment char: "))))
-;;       (while
-;;           ;; To have a prompt to pass the comment char.
-;;           (re-search-forward
-;;            (concat "^" comment-char ".-\\{43,\\}")
-;;            nil t)
-;;         (replace-match
-;;          (concat comment-char
-;;                  (make-string
-;;                   (- fill-column (string-width comment-char)) ?-))
-;;          nil nil)))))
-
-;; (defun wz-make-line-end-dashes-fill-column (beg end)
-;;   "This function fix those dashes at end of lines used as
-;;    decoration making them have a end at `fill-column'. At least
-;;    must have five dashes after a space, because 3 dashes are yaml
-;;    header and 4 are markdown horizontal rule."
-;;   (interactive "r")
-;;   (save-excursion
-;;     (goto-char beg)
-;;     (while (re-search-forward " -\\{5,\\}" end t)
-;;       (let ((xmax fill-column)
-;;             (xval (match-beginning 0) )
-;;             (null (beginning-of-line))
-;;             (xmin (point)))
-;;         (replace-match
-;;          (concat
-;;           " "
-;;           (make-string (- xmax (- xval xmin) 1) ?-)) nil nil)))))
+(defun ej-insert-section ()
+  (interactive)
+  (setq section-name
+    (concat (read-string "Section name: ") " "))
+  (move-beginning-of-line nil)
+  (insert
+    (concat section-name
+            (make-string
+             (- 70 (string-width section-name)) ?-)))
+  (comment-line-or-region)
+  (newline 2))
 
 ;;----------------------------------------------------------------------
 ;; Header.
@@ -303,7 +265,7 @@
     (insert (make-string (- number-of-spaces comment-char-size) ? ))
     (forward-char string-length)))
 
-(defun wz-header ()
+(defun ej-header ()
   "Insert a header."
   (interactive)
   (wz-insert-rule-from-point-to-margin)
@@ -312,26 +274,18 @@
          (- (+ fill-column 1)
             (how-many "-" (line-beginning-position) (point) t))))
     (wz-right-align-commented-text
-     "Prof. Dr. Walmes M. Zeviani"
+     "Eduardo E. R. Junior <edujrrib@gmail.com>"
      comment-char-size)
     (wz-right-align-commented-text
-     "leg.ufpr.br/~walmes · github.com/walmes"
+     "leg.ufpr.br/~eduardojr · github.com/jreduardo"
      comment-char-size)
     (wz-right-align-commented-text
-     "walmes@ufpr.br · @walmeszeviani"
-     comment-char-size)
-    (wz-right-align-commented-text
-     "Laboratory of Statistics and Geoinformation (LEG)"
-     comment-char-size)
-    (wz-right-align-commented-text
-     "Department of Statistics · Federal University of Paraná"
-     comment-char-size)
-    (wz-right-align-commented-text
-     (concat (format-time-string "%Y-%b-%d") " · Curitiba/PR/Brazil")
+     (concat (format-time-string "%Y-%b-%d") " · SP/Brazil")
      comment-char-size)
     )
   (insert "\n")
-  (wz-insert-rule-from-point-to-margin))
+  (wz-insert-rule-from-point-to-margin)
+  (newline 2))
 
 ;;----------------------------------------------------------------------
 ;; Code based on
@@ -473,6 +427,15 @@
         (wz-polymode-eval-line-by-line end))
     ;; If the region is not activated.
     (message "Region must be activated.")))
+
+;;----------------------------------------------------------------------
+;; Insert pipe operator in R
+
+(defun ej-insert-r-pipe-operator ()
+  (interactive)
+  (just-one-space 1)
+  (insert "%>%")
+  (reindent-then-newline-and-indent))
 
 ;;----------------------------------------------------------------------
 
