@@ -918,17 +918,20 @@
 (global-set-key (kbd "C-x w") 'mark-whole-word)
 (global-set-key (kbd "C-x t") 'open-shell-split-window)
 (global-set-key (kbd "M-;") 'comment-line-or-region)
-(global-set-key (kbd "M-<") 'move-line-up)
-(global-set-key (kbd "M->") 'move-line-down)
+(global-set-key (kbd "M-<up>") 'move-line-up)
+(global-set-key (kbd "M-<down>") 'move-line-down)
 (global-set-key (kbd "M-[") 'move-region-up)
 (global-set-key (kbd "M-]") 'move-region-down)
 (global-set-key (kbd "C-ç") 'camel-dot-snake)
 (global-set-key (kbd "C--") 'wz-insert-rule-from-point-to-margin)
 (global-set-key (kbd "C-M--") 'wz-insert-rule-and-comment-3)
-(global-set-key (kbd "M-=")
+(global-set-key (kbd "C-=")
                 (lambda ()
                   (interactive)
                   (wz-insert-rule-from-point-to-margin ?=)))
+(global-set-key (kbd "C-S-r") 'ej-insert-section)
+(global-set-key (kbd "C-c p") 'ej-header)
+(global-set-key (kbd "C-<f12>") 'ej-switch-theme)
 
 (add-hook
  'markdown-mode-hook
@@ -942,6 +945,7 @@
 (add-hook
  'ess-mode-hook
  (lambda ()
+   (local-set-key (kbd "C-c m")   'ej-insert-r-pipe-operator)
    (local-set-key (kbd "C-c i")   'wz-insert-chunk)
    (local-set-key (kbd "<f6>")    'wz-polymode-eval-R-chunk)
    (local-set-key (kbd "S-<f6>")  'wz-polymode-eval-R-chunk-and-next)
